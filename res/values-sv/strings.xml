@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="greeting">Hej världen, MainActivity</string>
+    <string name="count_button">Klicka!</string>
+    <string name="count_label">Antal klick: %d</string>
+    <string name="name_label">Namn:</string>
+    <string name="name_hint">Skriv ditt namn</string>
+    <string name="set">Sätt</string>
+    <string name="name_dialog_title">Ditt namn</string>
+    <string name="name_dialog_message">Ditt namn är %s!</string>
+    <string name="empty" />
+    <string name="ok">OK</string>
+    <string name="activity_button">Starta annan aktivitet</string>
+    <string name="back_button">Tillbaka</string>
+</resources>

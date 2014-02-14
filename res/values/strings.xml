@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidTest</string>
+    <string name="greeting">Hello World, MainActivity</string>
+    <string name="count_button">Click me!</string>
+    <string name="count_label">Click count: %d</string>
+    <string name="name_label">Name:</string>
+    <string name="name_hint">Input your name</string>
+    <string name="set">Set</string>
+    <string name="name_dialog_title">Your name</string>
+    <string name="name_dialog_message">Your name is %s!</string>
+    <string name="empty" />
+    <string name="ok">OK</string>
+    <string name="activity_button">Launch other activity</string>
+    <string name="back_button">Go back</string>
+    <string name="button_activity_label">Button Activity</string>
+    <string name="frame_activity_label">Frame Activity</string>
+    <string name="frame_button">Launch frame activity</string>
+</resources>
