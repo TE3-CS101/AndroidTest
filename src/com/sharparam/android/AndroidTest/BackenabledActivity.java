@@ -11,7 +11,7 @@ import android.view.MenuItem;
  *
  * @author Sharparam
  */
-public class BackenabledActivity extends Activity {
+public abstract class BackenabledActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

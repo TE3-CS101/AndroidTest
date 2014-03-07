@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">AndroidTest</string>
     <string name="greeting">Hej världen, MainActivity</string>
     <string name="count_button">Klicka!</string>
     <string name="count_label">Antal klick: %d</string>
@@ -12,4 +13,7 @@
     <string name="ok">OK</string>
     <string name="activity_button">Starta annan aktivitet</string>
     <string name="back_button">Tillbaka</string>
+    <string name="button_activity_label">Knappaktivitet</string>
+    <string name="frame_activity_label">Ramaktivitet</string>
+    <string name="frame_button">Kör ramaktivitet</string>
 </resources>

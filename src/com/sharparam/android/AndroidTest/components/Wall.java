@@ -33,7 +33,7 @@ public class Wall extends RectangleComponent {
         canvas.drawRect(rect, style);
     }
 
-    public boolean getCleared() {
+    public boolean isCleared() {
         return cleared;
     }
 

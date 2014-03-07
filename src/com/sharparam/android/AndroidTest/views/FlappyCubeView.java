@@ -166,7 +166,7 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
                     if (RectF.intersects(cube.getRect(), wall.getRect())) {
                         gameState = GAME_STATE_GAMEOVER;
                         playHurt();
-                    } else if (!wall.getCleared() && wall.getRect().top > 0 && wall.getRect().right < cube.getRect().left) {
+                    } else if (!wall.isCleared() && wall.getRect().top > 0 && wall.getRect().right < cube.getRect().left) {
                         points++;
                         wall.setCleared(true);
                         playCoin();
