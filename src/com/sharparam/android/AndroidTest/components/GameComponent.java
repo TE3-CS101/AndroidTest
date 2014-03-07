@@ -14,6 +14,10 @@ import com.sharparam.android.AndroidTest.interfaces.Updatable;
 public abstract class GameComponent extends Drawable implements Updatable {
     protected Paint style;
 
+    protected GameComponent() {
+        this(new Paint(Paint.ANTI_ALIAS_FLAG));
+    }
+
     protected GameComponent(Paint style) {
         this.style = style;
     }

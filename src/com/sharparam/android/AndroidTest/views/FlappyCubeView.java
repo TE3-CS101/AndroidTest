@@ -5,11 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import com.sharparam.android.AndroidTest.R;
 import com.sharparam.android.AndroidTest.components.Cube;
 import com.sharparam.android.AndroidTest.components.Wall;
 
@@ -23,6 +26,8 @@ import java.util.Random;
  * @author Sharparam
  */
 public class FlappyCubeView extends View implements View.OnTouchListener {
+    private static final boolean DEBUG = true;
+
     private static final Random RNG = new Random();
     private static final long UPDATE_DELAY = 10;
     private static final float WALL_WIDTH = 100.0f;
@@ -44,6 +49,12 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
     private long elapsed;
 
     private long wallTimer;
+
+    private SoundPool sounds;
+    private int selectSound;
+    private int jumpSound;
+    private int coinSound;
+    private int hurtSound;
 
     private ArrayList<Wall> walls;
 
@@ -78,6 +89,12 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
 
         bigTextStyle.setColor(Color.WHITE);
         bigTextStyle.setTextSize(50.0f);
+
+        sounds = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        selectSound = sounds.load(context, R.raw.select, 1);
+        jumpSound = sounds.load(context, R.raw.jump, 1);
+        coinSound = sounds.load(context, R.raw.coin, 1);
+        hurtSound = sounds.load(context, R.raw.hurt, 1);
 
         walls = new ArrayList<Wall>();
 
@@ -146,11 +163,13 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
                 walls.set(i, null);
             else {
                 if (cube != null) {
-                    if (RectF.intersects(cube.getRect(), wall.getRect()))
+                    if (RectF.intersects(cube.getRect(), wall.getRect())) {
                         gameState = GAME_STATE_GAMEOVER;
-                    else if (!wall.getCleared() && wall.getRect().top > 0 && wall.getRect().right < cube.getRect().left) {
+                        playHurt();
+                    } else if (!wall.getCleared() && wall.getRect().top > 0 && wall.getRect().right < cube.getRect().left) {
                         points++;
                         wall.setCleared(true);
+                        playCoin();
                     }
                 }
             }
@@ -168,18 +187,16 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
         if (rect.top < 0) {
             cube.setY(0);
             cube.setYSpeed(-cube.getYSpeed());
-            //gameState = GAME_STATE_GAMEOVER;
         } else if (rect.bottom > canvasHeight) {
             cube.setY(canvasHeight - cube.getHeight());
             gameState = GAME_STATE_GAMEOVER;
+            playHurt();
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawColor(backgroundColor);
-
-        String debug = String.format("Elapsed: %d; Wall delay: %d; Walls: %d", elapsed, wallTimer, walls.size());
 
         for (Wall wall : walls)
             wall.draw(canvas);
@@ -189,7 +206,10 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
 
         canvas.drawText(Integer.toString(points), 20.0f, 50.0f, bigTextStyle);
 
-        canvas.drawText(debug, 20.0f, 150.0f, debugTextStyle);
+        if (DEBUG) {
+            String debug = String.format("Elapsed: %d; Wall delay: %d; Walls: %d", elapsed, wallTimer, walls.size());
+            canvas.drawText(debug, 20.0f, 150.0f, debugTextStyle);
+        }
 
         switch (gameState) {
             case GAME_STATE_START:
@@ -212,18 +232,42 @@ public class FlappyCubeView extends View implements View.OnTouchListener {
                 walls.clear();
                 gameState = GAME_STATE_RUNNING;
                 points = 0;
+                playSelect();
             case GAME_STATE_RUNNING:
-                if (cube != null)
+                if (cube != null) {
                     cube.setYSpeed(-8.0f);
+                    playJump();
+                }
                 break;
             case GAME_STATE_GAMEOVER:
                 initCube();
                 walls.clear();
                 points = 0;
                 gameState = GAME_STATE_START;
+                playSelect();
                 break;
         }
 
         return true;
+    }
+
+    private void playSound(int id) {
+        sounds.play(id, 1.0f, 1.0f, 0, 0, 1.0f);
+    }
+
+    private void playSelect() {
+        playSound(selectSound);
+    }
+
+    private void playJump() {
+        playSound(jumpSound);
+    }
+
+    private void playCoin() {
+        playSound(coinSound);
+    }
+
+    private void playHurt() {
+        playSound(hurtSound);
     }
 }
